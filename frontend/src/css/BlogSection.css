@@ -1,0 +1,107 @@
+.blog-section {
+    margin: 5rem 0;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.blog-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blog-header:hover hr {
+    width: 150px;
+    transition: all .5s;
+}
+
+.blog-subheader {
+  font-family: 'Libre Baskerville', 'sans-serif';
+  font-size: 15px;
+  font-style: italic;
+  color: #878787;
+}
+
+.blog-header hr {
+    width: 80px;
+    margin: 0 1rem;
+    color: black;
+    border: 2px solid black;
+    transition: all .5s;
+}
+
+.blog-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.blog-card {
+    width: clamp(280px,60vw,400px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 2rem;
+}
+
+.blog-img img {
+    width: 100%;
+    -webkit-filter: brightness(50%);
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    transition: all .5s ease;
+}
+
+.blog-img img:hover {
+    -webkit-filter: brightness(100%);
+}
+
+.blog-title h3{
+    font-size: 1rem;
+    margin: .6rem 0 .2rem 0;
+}
+
+.blog-title:hover h3{
+    color: #56cfe1;
+}
+
+.blog-title a {
+    text-decoration: none;
+    color: black;
+}
+
+.blog-user {
+    margin-bottom: .6rem;
+}
+
+.blog-user span {
+    color: #222222;
+}
+
+.blog-user:hover span {
+    text-decoration: underline;
+}
+
+.blog-user, .blog-desc {
+    font-size: 14px;
+    color: #676767;
+}
+
+@media screen and (max-width:794px) {
+    .blog-header .hr {
+        display: none;
+    }
+    .blog-section {
+        padding: 0;
+    }
+    .blog-card {
+        margin: 2rem 0;
+    }
+    .blog-content {
+        padding: 0 1rem;
+    }
+}

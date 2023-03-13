@@ -1,0 +1,111 @@
+.login-page h5 {
+    font-style: italic;
+    color: #878787;
+    font-weight: normal;
+    margin: 1rem 0;
+}
+
+.login-register {
+    margin: 3rem 0;
+    display: flex;
+    padding: 0 10vw;
+}
+
+.login-form {
+    width: 50%;
+}
+
+.register-section {
+    width: 50%;
+    margin-left: 3rem;
+}
+
+.register-section h5 {
+    font-style: normal;
+    font-size: 14px;
+    margin-bottom: 3rem;
+}
+
+.submit-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.submit-forgot a {
+    color: #8e8e8e;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.submit-forgot a:hover {
+    color: #01bad4;
+}
+
+.login-reg-button {
+    border: none;
+    background-color: black;
+    color: white;
+    font-family: 'poppins', 'sans-serif';
+    font-size: .9rem;
+    font-weight: bold;
+    padding: .5rem 2.5rem;
+    transition: all .3s;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+.login-reg-button:hover {
+    background-color: #01bad4;
+    transition: all .3s;
+}
+
+.register {
+    background-color: #01bad4;
+}
+
+.register:hover {
+    background-color: black;
+}
+
+@media screen and (max-width: 978px) {
+    .login-register {
+        flex-direction: column;
+    }
+
+    .login-form {
+        width: 100%;
+    }
+
+    .register-section {
+        width: 100%;
+        margin-left: 0rem;
+        margin-top: 3rem;
+        margin-bottom: 2rem;
+    }
+
+    .register-section h5 {
+        margin-bottom: 2rem;
+    }
+}
+
+@media screen and (max-width:390px) {
+    .login-register h2 {
+        font-size: 1.35rem;
+    }
+
+    .submit-forgot {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .submit-forgot a {
+        margin-top: 1.5rem;
+        align-self: center;
+    }
+
+    .login {
+        width: 100%;
+    }
+}

@@ -1,0 +1,43 @@
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: calc(100vh - 180px);
+    color: #222222;
+    text-align: center;
+    padding: 5rem;
+}
+
+.error h1 {
+    font-size: 80px;
+}
+
+.error h2 {
+    font-size: 18px;
+    margin-bottom: 1.2rem;
+}
+
+.error h3 {
+    font-size: 14px;
+    color: #878787;
+    font-weight: normal;
+}
+
+.error h3 a {
+    text-decoration: none;
+    color: #222222;
+    font-weight: bold;
+    padding: .2rem .6rem;
+    border-bottom: 1px solid #222222;
+}
+
+.error h3 a:hover {
+    color: #01bad4;
+}
+
+@media screen and (max-width: 395px) {
+    .error {
+        padding: 2rem;
+    }
+}
