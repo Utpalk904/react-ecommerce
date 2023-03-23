@@ -12,25 +12,29 @@ import { toast } from 'react-toastify';
 
 const Products = () => {
     const dispatch = useDispatch();
-    const {loading, error, products, productCount } = useSelector((state)=>{
+    const { loading, error, products, productCount } = useSelector((state) => {
         return state.products;
     });
-    
-    useEffect(()=>{
-        if (error){
+
+    useEffect(() => {
+        if (!loading) {
+            toast.success("success");
+        }
+        if (error) {
             return toast.error(error);
         }
         dispatch(getProduct());
     }, [dispatch, error]);
-    
+
     return (
-    <div>
-        <PageHeader pageHeader='All Products'/>
-        <BreadCrums address='Products'/>
-        {loading? <Loader/>: <div className='product'>
-        {products && products.map((product)=>(<ProductCard product={product} key={product.name}/>))}</div>}
-    </div>
-  );
+        <div>
+            <PageHeader pageHeader='All Products' />
+            <BreadCrums address='Products' />
+            {loading ? <Loader /> :
+                <div className='product'>
+                    {products && products.map((product) => (<ProductCard product={product} key={product._id} />))}</div>}
+        </div>
+    );
 }
 
 export default Products;

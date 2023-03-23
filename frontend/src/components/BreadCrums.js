@@ -13,7 +13,9 @@ function BreadCrums(props) {
             <AiOutlineRight/>
         </span>
         <span className="breadcrums-address">
-            {props.address}
+            {(props.isProduct==='true')?
+                <Link to={props.address1Url??'/products'}>{props.address}</Link>
+             : <span className="breadcrums-address">{props.address}</span>}
         </span>
         {(props.isProduct==='true')? <span className="breadcrums-arrow">
             <AiOutlineRight/>
