@@ -1,5 +1,5 @@
 import React from 'react';
-import { getProduct } from '../actions/productAction';
+import { clearErrors, getProduct } from '../actions/productAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
@@ -17,11 +17,12 @@ const Products = () => {
     });
 
     useEffect(() => {
-        if (!loading) {
-            toast.success("success");
-        }
+        // if (!loading) {
+        //     toast.success("success");
+        // }
         if (error) {
-            return toast.error(error);
+            toast.error(error);
+            dispatch(clearErrors());
         }
         dispatch(getProduct());
     }, [dispatch, error]);

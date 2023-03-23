@@ -191,6 +191,8 @@
 .accordion-data-mobile {
   display: none !important;
   padding: 1rem 1rem;
+  width: 100%;
+  text-align: left;
 }
 
 .hidden {
@@ -395,6 +397,16 @@
   .single-product-detail {
     width: 80%;
     padding: 2rem 0;
+  }
+
+  .review-form {
+    /* flex-wrap: wrap; */
+    flex-direction: column;
+  }
+
+  .review-1,
+  .review-2 {
+    width: 100%;
   }
 }
 

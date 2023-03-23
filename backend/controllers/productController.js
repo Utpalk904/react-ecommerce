@@ -32,7 +32,21 @@ exports.getAllProducts = catchAsyncErr(async (req, res, next) => {
 exports.getTrendingProducts = catchAsyncErr(async (req, res) => {
     const resultPerPage = 8;
 
-    const apiFeature = new apiFeatures(Product.find({ trending: true }), req.query).search().filter().pagination(resultPerPage);
+    const apiFeature = new apiFeatures(Product.find({ trending: true }), req.query).pagination(resultPerPage);
+    const products = await apiFeature.query;
+    let productCount = 0;
+    productCount = products.length;
+
+    res.status(200).json({
+        success: true,
+        products,
+        productCount
+    });
+});
+
+exports.getAllTrendingProducts = catchAsyncErr(async (req, res) => {
+
+    const apiFeature = new apiFeatures(Product.find({ trending: true }), req.query).search().filter();
     const products = await apiFeature.query;
     let productCount = 0;
     productCount = products.length;

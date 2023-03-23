@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import Products from './pages/Products';
 import SingleProduct from './pages/SingleProduct';
+import TrendingProducts from './pages/TrendingProducts';
 // import Loader from './components/Loader';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route exact path='/contact-us' element={<ContactUs />} />
         <Route exact path='/shop' element={<Home />} />
         <Route exact path='/products' element={<Products />} />
+        <Route exact path='/trending-products' element={<TrendingProducts />} />
         <Route exact path='/cart' element={<Home />} />
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/register' element={<Home />} />
@@ -27,7 +29,7 @@ function App() {
         <Route exact path='/product/:id' element={<SingleProduct />} />
         <Route exact path='*' element={<PageNotFound />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </BrowserRouter>
   );
 }

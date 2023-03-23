@@ -3,7 +3,7 @@ import BreadCrums from '../components/BreadCrums';
 import PageHeader from '../components/PageHeader';
 import Carousel from 'react-material-ui-carousel';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProductDetails } from '../actions/productAction';
+import { clearErrors, getProductDetails } from '../actions/productAction';
 import { useParams } from 'react-router-dom';
 import ReactStars from 'react-rating-stars-component';
 import { IoIosHeartEmpty } from 'react-icons/io';
@@ -12,6 +12,7 @@ import MetaData from '../components/MetaData';
 import DeliveryCard from '../components/DeliveryCard';
 import { details, deliveryCard } from '../constants/productData';
 import ReviewForm from '../components/ReviewForm';
+import { toast } from 'react-toastify';
 
 const SingleProduct = () => {
     const { id } = useParams();
@@ -20,8 +21,12 @@ const SingleProduct = () => {
         state.productDetails);
     useEffect(() => {
         window.scrollTo(0, 0);
+        if (error) {
+            toast.error(error);
+            dispatch(clearErrors());
+        }
         dispatch(getProductDetails(id));
-    }, [dispatch, id]);
+    }, [dispatch, id, error]);
 
     const options = {
         edit: false,

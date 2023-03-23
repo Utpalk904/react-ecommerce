@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import InputField from './InputField';
 import { toast } from 'react-toastify';
-import { CiStar } from 'react-icons/ci';
+// import { CiStar } from 'react-icons/ci';
 
 const ReviewForm = ({ productName }) => {
 
