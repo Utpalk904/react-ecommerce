@@ -7,7 +7,7 @@ export const getProduct = () =>
             dispatch({
                 type: ALL_PRODUCT_REQUEST
             });
-            const { data } = await axios.get('/api/v1/products');
+            const { data } = await axios.get('http://localhost:4000/api/v1/products');
             dispatch({
                 type: ALL_PRODUCT_SUCCESS,
                 payload: data
@@ -26,7 +26,7 @@ export const getTrendingProduct = () =>
             dispatch({
                 type: TRENDING_PRODUCT_REQUEST
             });
-            const { data } = await axios.get('/api/v1/trending-products');
+            const { data } = await axios.get('http://localhost:4000/api/v1/trending-products');
             dispatch({
                 type: TRENDING_PRODUCT_SUCCESS,
                 payload: data
@@ -45,7 +45,7 @@ export const getAllTrendingProduct = () =>
             dispatch({
                 type: ALL_TRENDING_PRODUCT_REQUEST
             });
-            const { data } = await axios.get('/api/v1/all-trending-products');
+            const { data } = await axios.get('http://localhost:4000/api/v1/all-trending-products');
             dispatch({
                 type: ALL_TRENDING_PRODUCT_SUCCESS,
                 payload: data
@@ -64,7 +64,7 @@ export const getProductDetails = (id) =>
             dispatch({
                 type: PRODUCT_DETAILS_REQUEST
             });
-            const { data } = await axios.get(`/api/v1/product/${id}`);
+            const { data } = await axios.get(`http://localhost:4000/api/v1/product/${id}`);
             dispatch({
                 type: PRODUCT_DETAILS_SUCCESS,
                 payload: data.product
