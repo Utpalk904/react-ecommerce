@@ -14,6 +14,150 @@ nav {
     font-family: 'Poppins', sans-serif;
 }
 
+.search-modal {
+    height: 100svh;
+    width: 100svw;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.852);
+    z-index: 10;
+    animation: modalOpen 1s ease-in-out 0s;
+}
+
+@keyframes modalOpen {
+    from {
+        transform: translateY(-100svh);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.search-modal-close {
+    display: none;
+}
+
+.search-modal .modal-close {
+    padding: 4rem 2rem;
+    font-size: 36px;
+    display: flex;
+    justify-content: end;
+    color: white;
+}
+
+.search-modal .modal-close span:hover {
+    color: #01bad4;
+}
+
+.search-modal .search-input {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid grey;
+}
+
+.search-modal .search-input input {
+    background-color: transparent;
+    padding: 1rem;
+    outline: none;
+    border: none;
+    color: white;
+    font-family: 'poppins', 'sans-serif';
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.search-modal .search-input:focus {
+    outline: none;
+}
+
+.search-modal .search-results {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+.search-results a {
+    text-decoration: none;
+}
+
+.search-results .result-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #dadada;
+    font-size: 15px;
+    padding: .5rem 1rem;
+}
+
+.all-result {
+    color: #8e8e8e;
+    transition: .3s;
+}
+
+.all-result:hover {
+    color: #01bad4;
+    transition: .3s;
+}
+
+.search-modal .search-results .result-box {
+    width: clamp(300px, 50%, 560px);
+    height: 50%;
+    overflow: scroll !important;
+    background-color: white;
+}
+
+.no-result-found {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.search-result-card {
+    width: 100%;
+    display: flex;
+    height: 115px;
+    background-color: white;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.408);
+    gap: 1rem;
+    color: #222222;
+    padding: 0.2rem .4rem;
+}
+
+.search-result-card:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+.search-result-card .result-image {
+    width: clamp(99px,25%,110px);
+    display: flex;
+    justify-content: center;
+}
+
+.search-result-card .result-image img {
+    width: 100%;
+    height: 100%;
+}
+
+.search-result-card .result-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    gap: 1rem;
+}
+
+.search-result-card .result-name:hover {
+    color: #01bad4;
+    transition: .2s;
+}
+
+.search-result-card .result-price {
+    color: #696969;
+    font-size: 15px;
+}
+
 .menu-icon {
     display: none;
     justify-content: center;
@@ -105,6 +249,14 @@ nav {
 .nav-right {
     margin-right: 1rem;
     display: flex;
+}
+
+.nav-right .search {
+    cursor: pointer;
+}
+
+.nav-right .search:hover {
+    color: #01bad4;
 }
 
 .nav-right a {
@@ -334,5 +486,13 @@ nav {
 @media screen and (max-width:430px) {
     .total-item-mobile {
         right: 25%;
+    }
+
+    .search-modal .search-input input {
+        font-size: 1rem;
+    }
+
+    .search-modal .modal-close {
+        font-size: 30px;
     }
 }

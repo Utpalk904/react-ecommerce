@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { clearErrors, getProduct } from '../actions/productAction';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { toast } from 'react-toastify';
 
 import '../css/Navbar.css';
 
@@ -22,13 +26,87 @@ import { CgClose } from 'react-icons/cg';
 import { IoHomeOutline } from 'react-icons/io5';
 
 import { IoSettingsOutline } from 'react-icons/io5';
+import SearchResultCard from './SearchResultCard';
+
 
 const Navbar = () => {
 
+    const dispatch = useDispatch();
+    const { error, products } = useSelector((state) => {
+        return state.products;
+    });
+
+    useEffect(() => {
+        // if (!loading) {
+        //     toast.success("success");
+        // }
+        if (error) {
+            toast.error(error);
+            dispatch(clearErrors());
+        }
+        dispatch(getProduct());
+    }, [dispatch, error]);
+
+    const searchClick = () => {
+        setModalClass('search-modal');
+        document.body.style.overflow="hidden";
+    }
+
+    const modalClose = ()=>{
+        setModalClass('search-modal-close');
+        document.body.style.overflow="auto";
+        // return false;
+    }
+
+    const [searchValue, setSearchValue] = useState('');
+    const [array, setArray] = useState(products);
+
+    const searchChange = (e)=>{
+        const val = e.target.value.toLowerCase().trim();
+        const result = products.filter((product)=>{
+            if (val ===''){
+                return false;
+            }
+            else {
+                return product.name.toLowerCase().includes(val);
+            }
+        });
+        setSearchValue(val);
+        setArray(result);
+    }
+
     const [mobileMenu, setMobileMenu] = useState('mobile-menu-close');
+    const [modalClass, setModalClass] = useState('search-modal-close');
 
     return (
         <header>
+            <div className={modalClass}>
+                <div className="modal-close">
+                    <span onClick={modalClose}>
+                        <CgClose />
+                    </span>
+                </div>
+                <div className="search-input">
+                    <input type="text" value={searchValue} onChange={searchChange} name="searchKeyword" id="searchKeyword" placeholder='Search entire store here...' />
+                </div>
+                <div className="search-results">
+                    {(searchValue!=='')?
+                    <div className="result-box">
+                        <div className="result-heading">
+                            <span className='result-title'>
+                                Search Results
+                            </span>
+                            {(array.length!==0)?<Link className='all-result'>See All ({array.length})</Link>:<></>}
+                        </div>
+                        {(array.length===0)?<div className='no-result-found'>No Product Found</div>:<>
+                        {array.map((product)=>(
+                            <SearchResultCard product={product} key={product._id} clickfx={modalClose} />
+                        ))}</>
+                        }
+                    </div>:<></>
+                    }
+                </div>
+            </div>
             <nav>
                 <div className="nav-left">
                     <div className="menu-icon" onClick={() => { setMobileMenu('mobile-menu'); window.scrollTo(0,0); document.body.style.overflow="hidden"; }}>
@@ -59,7 +137,7 @@ const Navbar = () => {
                     </div>
                 </div>
                 <div className="nav-right">
-                    <span className="search"><Link><IoIosSearch /></Link></span>
+                    <span className="search" onClick={searchClick}><IoIosSearch /></span>
                     <span className="account"><Link to='/login'><VscAccount /></Link></span>
                     <span className="wishlist"><Link to='/wishlist'><IoIosHeartEmpty /></Link></span>
                     <span className="cart">
