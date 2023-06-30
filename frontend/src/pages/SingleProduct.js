@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import BreadCrums from '../components/BreadCrums';
 import PageHeader from '../components/PageHeader';
-import Carousel from 'react-material-ui-carousel';
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useSelector, useDispatch } from 'react-redux';
 import { clearErrors, getProductDetails } from '../actions/productAction';
 import { useParams } from 'react-router-dom';
@@ -13,6 +14,7 @@ import DeliveryCard from '../components/DeliveryCard';
 import { details, deliveryCard } from '../constants/productData';
 import ReviewForm from '../components/ReviewForm';
 import { toast } from 'react-toastify';
+import Loader from '../components/Loader';
 
 const SingleProduct = () => {
     const { id } = useParams();
@@ -79,8 +81,10 @@ const SingleProduct = () => {
             <MetaData title={product.name} />
             <PageHeader pageHeader={product.name} />
             <BreadCrums isProduct='true' address='Product' address2={product.name} />
+            {(loading)?<Loader/>:
             <div className="single-product-card">
-                <Carousel className='single-product-image'>
+                <Carousel className='single-product-image'
+                    autoPlay={true} interval={3000} infiniteLoop={true} emulateTouch={true} showStatus={false} showThumbs={false}>
                     {product.images && product.images.map((item, i) => (
                         <img className='carousel-image' key={item.url} src={item.url} alt={`${i} slide`} />
                     ))}
@@ -143,7 +147,7 @@ const SingleProduct = () => {
                         :
                         ""}
                 </div>
-            </div>
+            </div>}
             <div className="single-product-more-info">
                 <div className='accordion'>
                     <div className="accordion-tabs">

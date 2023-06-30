@@ -3,9 +3,9 @@ mongoose.set('strictQuery', false);
 
 const connectDB = () => {
 	mongoose.connect(process.env.DB_URI, {
-	    useNewUrlParser: true, useUnifiedTopology: true
-	}).then((data)=>{
-	    console.log(`MongoDb connected with server: ${data.connection.host}`);
+		useNewUrlParser: true, useUnifiedTopology: true
+	}).then((data) => {
+		console.log(`MongoDb connected with server: ${data.connection.host}`);
 	});
 }
 
