@@ -8,8 +8,7 @@ function InputField(props) {
         {props.label}
         <span className='required'>{props.required}</span>
       </label>
-      {(props.required === "*") ? <input type={props.inputType} id={props.labelFor} name={props.label} autoComplete='off' required /> : <input type={props.inputType} id={props.labelFor} name={props.label} autoComplete='off' />}
-
+      {(props.required === "*") ? <input type={props.inputType} defaultValue={props.default} value={props.value} onChange={props.onChange ? (e) => props.onChange(e) : undefined} id={props.labelFor} name={props.labelFor} autoComplete='off' required /> : <input type={props.inputType} onChange={props.onChange ? (e) => props.onChange(e) : undefined} id={props.labelFor} defaultValue={props.default} value={props.value} name={props.labelFor} autoComplete='off' />}
     </div>
   )
 }

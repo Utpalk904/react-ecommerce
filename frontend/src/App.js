@@ -9,9 +9,22 @@ import Login from './pages/Login';
 import Products from './pages/Products';
 import SingleProduct from './pages/SingleProduct';
 import TrendingProducts from './pages/TrendingProducts';
+import SignUp from './pages/SignUp';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserDetails } from './actions/userAction';
 // import Loader from './components/Loader';
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserDetails());
+  },[dispatch]);
+
+  const { isAuthenticated } = useSelector((state) => state.user);
+
   return (
     <BrowserRouter>
       <Navbar />
@@ -24,7 +37,9 @@ function App() {
         <Route exact path='/trending-products' element={<TrendingProducts />} />
         <Route exact path='/cart' element={<Home />} />
         <Route exact path='/login' element={<Login />} />
-        <Route exact path='/register' element={<Home />} />
+        {isAuthenticated && <Route exact path='/account' element={<Home />} />}
+        
+        <Route exact path='/register' element={<SignUp />} />
         <Route exact path='/wishlist' element={<Home />} />
         <Route exact path='/product/:id' element={<SingleProduct />} />
         <Route exact path='*' element={<PageNotFound />} />

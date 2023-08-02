@@ -1,0 +1,52 @@
+.register-form {
+    margin: 3rem 0;
+    padding: 0 10vw;
+}
+
+.submit-register {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    gap: 2rem;
+}
+
+.reg-form-login-button {
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: .875rem;
+    text-decoration: none;
+    color: #222;
+    border: 2px solid #222;
+    border-radius: 20px;
+    padding: .5rem 2rem;
+    font-weight: 600;
+    transition: all .15s;
+}
+
+.reg-form-login-button:hover {
+    color: white;
+    background-color: black;
+    transition: all .15s;
+}
+
+.reg-form-submit-button {
+    width: 100%;
+    border: none;
+    background-color: black !important;
+    color: white !important;
+    font-family: "poppins", "sans-serif" !important;
+    font-size: 0.9rem !important;
+    font-weight: bold;
+    padding: 0.5rem 2.5rem !important;
+    transition: all 0.3s;
+    cursor: pointer;
+    display: block !important;
+}
+
+.reg-form-submit-button:hover {
+    background-color: #01bad4 !important;
+    transition: all 0.3s;
+}

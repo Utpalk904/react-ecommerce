@@ -1,11 +1,52 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import BreadCrums from '../components/BreadCrums';
 import InputField from '../components/InputField';
 import PageHeader from '../components/PageHeader';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { clearErrors, loginUser } from '../actions/userAction';
 import '../css/Login.css';
 
 const Login = () => {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { isAuthenticated, error, loading } = useSelector((state) => state.user);
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+
+        const data = new FormData();
+
+        data.append('email', email);
+        data.append('password', password);
+        try {
+            dispatch(loginUser(data));
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
+    useEffect(() => {
+        
+        if (error) {
+            toast.error(error);
+            dispatch(clearErrors());
+        }
+
+        if (isAuthenticated) {
+            navigate('/');
+        }
+
+    }, [dispatch, error, isAuthenticated, navigate]);
+
   return (
     <div className='login-page'>
         <PageHeader pageHeader='Customer Login'/>
@@ -14,11 +55,11 @@ const Login = () => {
             <div className="login-form left">
                 <h2>REGISTERED CUSTOMER</h2>
                 <h5>If you have an account, sign in with your email address.</h5>
-                <form action="#" method="post">
-                    <InputField labelFor='email' label='Email' required='*' inputType='email'/>
-                    <InputField labelFor='password' label='Password' required='*' inputType='password'/>
+                <form method="post" onSubmit={submitHandler}>
+                    <InputField labelFor='email' label='Email' required='*' onChange={(e) => setEmail(e.target.value)} inputType='email'/>
+                    <InputField labelFor='password' label='Password' required='*' onChange={(e) => setPassword(e.target.value)} inputType='password'/>
                     <div className="submit-forgot">
-                        <button type="submit" className='login-reg-button login'>Sign In</button>
+                        <button type="submit" className='login-reg-button login' disabled={loading} >Sign In</button>
                         <Link to='/'>Forgot Your Password?</Link>
                     </div>
                 </form>

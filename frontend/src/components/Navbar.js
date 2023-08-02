@@ -32,9 +32,11 @@ import SearchResultCard from './SearchResultCard';
 const Navbar = () => {
 
     const dispatch = useDispatch();
-    const { error, products } = useSelector((state) => {
-        return state.products;
+    const { user, loading, isAuthenticated } = useSelector((state) => {
+        return state.user;
     });
+
+    const { products, error } = useSelector((state) => state.products);
 
     useEffect(() => {
         // if (!loading) {
@@ -138,7 +140,7 @@ const Navbar = () => {
                 </div>
                 <div className="nav-right">
                     <span className="search" onClick={searchClick}><IoIosSearch /></span>
-                    <span className="account"><Link to='/login'><VscAccount /></Link></span>
+                    <span className="account"><Link to={isAuthenticated? '/' : '/login'}><VscAccount /></Link></span>
                     <span className="wishlist"><Link to='/wishlist'><IoIosHeartEmpty /></Link></span>
                     <span className="cart">
                         <Link to='/cart'><BsCart3 /></Link>
