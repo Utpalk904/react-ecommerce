@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ALL_PRODUCT_REQUEST, ALL_PRODUCT_SUCCESS, ALL_PRODUCT_FAIL, CLEAR_ERRORS, PRODUCT_DETAILS_REQUEST, PRODUCT_DETAILS_SUCCESS, PRODUCT_DETAILS_FAIL, ALL_TRENDING_PRODUCT_FAIL, ALL_TRENDING_PRODUCT_REQUEST, ALL_TRENDING_PRODUCT_SUCCESS, TRENDING_PRODUCT_REQUEST, TRENDING_PRODUCT_SUCCESS, TRENDING_PRODUCT_FAIL } from "../constants/productConstant";
-const baseUrl = 'https://ecommerce-backend-381k.onrender.com/api/v1';
+const baseUrl = 'http://localhost:4000/api/v1';
+// const baseUrl = 'https://ecommerce-backend-381k.onrender.com/api/v1';
 
 export const getProduct = () =>
     async (dispatch) => {
@@ -77,6 +78,31 @@ export const getProductDetails = (id) =>
             });
         }
     };
+
+export const createReview = (reviewData) => 
+    async (dispatch) => {
+        try {
+
+            dispatch({
+                type: 'PRODUCT_REVIEW_REQUEST'
+            });
+
+            const token = localStorage.getItem('token');
+
+            const { data } = await axios.put(`${baseUrl}/review`, reviewData, { headers: { Authorization: `${token}` } });
+
+            dispatch({
+                type: 'PRODUCT_REVIEW_SUCCESS',
+                payload: data
+            });
+
+        } catch (error) {
+            dispatch({
+                type: 'PRODUCT_REVIEW_FAIL',
+                payload: error.response.data.message
+            });
+        }
+}
 
 export const clearErrors = () =>
     async (dispatch) => {

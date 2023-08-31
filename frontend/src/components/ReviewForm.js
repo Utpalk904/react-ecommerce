@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputField from './InputField';
 import { toast } from 'react-toastify';
-// import { CiStar } from 'react-icons/ci';
+import { useDispatch, useSelector } from 'react-redux';
+import { createReview } from '../actions/productAction';
+import Loader from './Loader';
 
-const ReviewForm = ({ productName }) => {
+const ReviewForm = ({ productName, productId }) => {
 
-    const [star, setStar] = useState(0);
+    const [rating, setRating] = useState(0);
     const [hoveredStar, setHoveredStar] = useState(0);
+    const [comment, setComment] = useState('');
+    const dispatch = useDispatch();
+    const { loading } = useSelector((state) => state.productDetails);
 
     const handleHover = (id) => {
         setHoveredStar(id);
     };
 
     const handleClick = (id) => {
-        setStar(id);
+        setRating(id);
     };
 
     const handleMouseLeave = () => {
@@ -21,23 +26,40 @@ const ReviewForm = ({ productName }) => {
     };
 
     const submitHandle = (e) => {
-        // e.preventDefault();
-        if (!star) {
+        e.preventDefault();
+        if (!rating) {
             toast.warning('Select star rating first');
+            return;
         }
 
-        // const data = {
-        //     rating, name, comment
-        // }
+        if (comment.trim() === "") {
+            toast.warning("Review can't be empty");
+            return;
+        }
 
-        // console.log(data)
+        const data = {
+            rating, productId, comment
+        }
+
+        try {
+            dispatch(createReview(data));
+            toast.success('Review created!');
+
+            setComment('');
+            setRating(0);
+            
+        } catch (error) {
+            console.log(error);
+        }
+
+        console.log(data);
     }
 
     const stars = Array.from({ length: 5 }, (_, index) => {
         const starId = index + 1;
         let color = 'gray';
         let fill = 'gray';
-        if (starId <= (Math.max(hoveredStar, star))) {
+        if (starId <= (Math.max(hoveredStar, rating))) {
             color = '#ff5501';
             fill = '#ff5501';
         }
@@ -57,20 +79,21 @@ const ReviewForm = ({ productName }) => {
 
     return (
         <div className='review-form-container'>
+            {loading && <Loader/>}
             <h1>Write Your Own Review</h1>
             <div className="review-form-name">
                 Your are reviewing: <span className="review-product-name">{productName}</span>
             </div>
             <form action="" className='review-form' onSubmit={submitHandle}>
                 <div className="review-1">
-                    <InputField label='Username' required='*' inputType='text' labelFor='name' />
+                    {/* <InputField label='Username' required='*' inputType='text' labelFor='name' /> */}
 
                     <div className="review-rating">
                         <label htmlFor="rating">
                             Rating
                             <span className='required'>*</span>
                         </label>
-                        <input type="number" hidden value={star} name='rating' readOnly={true} />
+                        <input type="number" hidden value={rating} name='rating' readOnly={true} />
                         <div className="rating-stars">
                             {stars}
                         </div>
@@ -81,7 +104,7 @@ const ReviewForm = ({ productName }) => {
                         Review
                         <span className='required'>*</span>
                     </label>
-                    <textarea id='comment' aria-required='true' name='comment' />
+                    <textarea id='comment' aria-required='true' value={comment} onChange={(e) => setComment(e.target.value)} name='comment' required/>
                 </div>
                 <button type="submit review-submit">Submit Review</button>
             </form>

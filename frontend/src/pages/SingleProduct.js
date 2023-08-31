@@ -15,12 +15,13 @@ import { details, deliveryCard } from '../constants/productData';
 import ReviewForm from '../components/ReviewForm';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
+import ProductReviews from '../components/ProductReviews';
 
 const SingleProduct = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { product, loading, error } = useSelector((state) =>
-        state.productDetails);
+    const { product, loading, error } = useSelector((state) => state.productDetails);
+
     useEffect(() => {
         window.scrollTo(0, 0);
         if (error) {
@@ -35,7 +36,7 @@ const SingleProduct = () => {
         color: "rgba(20,20,20,.1)",
         activeColor: "tomato",
         size: 16,
-        value: product.rating,
+        value: product.ratings,
         isHalf: true
     }
 
@@ -171,7 +172,14 @@ const SingleProduct = () => {
                             </span>
                         </button>
                         <div className={review + ' accordion-data-mobile'}>
-                            <ReviewForm productName={product.name} />
+                            <ReviewForm productName={product.name} productId={product && product._id} />
+                            {product && product.numOfReviews && product.numOfReviews!==0 && 
+                                <div className='flex flex-wrap gap-5 mt-12'>
+                                    {product && product.reviews && product.reviews.length!==0 && product.reviews.map((review, index) => (
+                                        <ProductReviews key={index} review={review} />
+                                    ))}
+                                </div>
+                            }
                         </div>
                     </div>
                     <div className="accordion-data">
@@ -179,7 +187,14 @@ const SingleProduct = () => {
                             {details}
                         </div>
                         <div className={review}>
-                            <ReviewForm productName={product.name} />
+                            <ReviewForm productName={product.name} productId={product && product._id}/>
+                            {product && product.numOfReviews && product.numOfReviews!==0 && 
+                                <div className='flex flex-wrap gap-5 mt-12'>
+                                    {product && product.reviews && product.reviews.length!==0 && product.reviews.map((review, index) => (
+                                        <ProductReviews key={index} review={review} />
+                                    ))}
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

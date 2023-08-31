@@ -123,7 +123,7 @@ exports.createProductReview = catchAsyncErr(
 
         const isReviewed = product.reviews.find(
             (review) => {
-                review.user.toString() === req.user._id.toString();
+                return review.user.toString() === req.user._id.toString();
             }
         );
 
@@ -156,7 +156,7 @@ exports.createProductReview = catchAsyncErr(
 
         res.status(200).json({
             success: true,
-            review
+            product
         })
     }
 );
