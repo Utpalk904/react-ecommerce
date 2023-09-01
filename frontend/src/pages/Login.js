@@ -42,7 +42,8 @@ const Login = () => {
         }
 
         if (isAuthenticated) {
-            navigate('/');
+            const previousLocation = sessionStorage.getItem('previousLocation');
+            navigate(previousLocation || '/');
         }
 
     }, [dispatch, error, isAuthenticated, navigate]);

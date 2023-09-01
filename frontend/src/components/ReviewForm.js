@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import InputField from './InputField';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReview } from '../actions/productAction';
@@ -11,7 +10,8 @@ const ReviewForm = ({ productName, productId }) => {
     const [hoveredStar, setHoveredStar] = useState(0);
     const [comment, setComment] = useState('');
     const dispatch = useDispatch();
-    const { loading } = useSelector((state) => state.productDetails);
+    const { reviewLoading } = useSelector((state) => state.productDetails);
+    const { isAuthenticated } = useSelector((state) => state.user);
 
     const handleHover = (id) => {
         setHoveredStar(id);
@@ -25,8 +25,14 @@ const ReviewForm = ({ productName, productId }) => {
         setHoveredStar(0);
     };
 
-    const submitHandle = (e) => {
+    const submitHandle = async (e) => {
         e.preventDefault();
+
+        if (!isAuthenticated) {
+            toast.warning('Login to create a review');
+            return;
+        }
+
         if (!rating) {
             toast.warning('Select star rating first');
             return;
@@ -42,17 +48,20 @@ const ReviewForm = ({ productName, productId }) => {
         }
 
         try {
-            dispatch(createReview(data));
-            toast.success('Review created!');
-
-            setComment('');
-            setRating(0);
+            const response = await dispatch(createReview(data));
+            
+            if (response.success) {
+                toast.success('Review created!');   
+                setComment('');
+                setRating(0);
+            }
+            else {
+                toast.error('Some error occured!');
+            }
             
         } catch (error) {
             console.log(error);
         }
-
-        console.log(data);
     }
 
     const stars = Array.from({ length: 5 }, (_, index) => {
@@ -78,16 +87,14 @@ const ReviewForm = ({ productName, productId }) => {
     });
 
     return (
+        reviewLoading ? <Loader/> : 
         <div className='review-form-container'>
-            {loading && <Loader/>}
             <h1>Write Your Own Review</h1>
             <div className="review-form-name">
                 Your are reviewing: <span className="review-product-name">{productName}</span>
             </div>
             <form action="" className='review-form' onSubmit={submitHandle}>
                 <div className="review-1">
-                    {/* <InputField label='Username' required='*' inputType='text' labelFor='name' /> */}
-
                     <div className="review-rating">
                         <label htmlFor="rating">
                             Rating
@@ -106,7 +113,7 @@ const ReviewForm = ({ productName, productId }) => {
                     </label>
                     <textarea id='comment' aria-required='true' value={comment} onChange={(e) => setComment(e.target.value)} name='comment' required/>
                 </div>
-                <button type="submit review-submit">Submit Review</button>
+                <button type="submit review-submit" disabled={reviewLoading}>Submit Review</button>
             </form>
         </div>
     )

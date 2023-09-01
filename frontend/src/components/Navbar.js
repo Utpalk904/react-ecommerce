@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { clearErrors, getProduct } from '../actions/productAction';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -32,6 +32,8 @@ import SearchResultCard from './SearchResultCard';
 const Navbar = () => {
 
     const dispatch = useDispatch();
+    const location = useLocation();
+    
     const { user, loading, isAuthenticated } = useSelector((state) => {
         return state.user;
     });
@@ -140,7 +142,14 @@ const Navbar = () => {
                 </div>
                 <div className="nav-right">
                     <span className="search" onClick={searchClick}><IoIosSearch /></span>
-                    <span className="account"><Link to={isAuthenticated? '/' : '/login'}><VscAccount /></Link></span>
+                    <span className="account">
+                        <Link to={isAuthenticated? '/' : '/login'} 
+                        onClick={() => {
+                            sessionStorage.setItem('previousLocation', location.pathname);
+                        }}>
+                            <VscAccount />
+                        </Link>
+                    </span>
                     <span className="wishlist"><Link to='/wishlist'><IoIosHeartEmpty /></Link></span>
                     <span className="cart">
                         <Link to='/cart'><BsCart3 /></Link>
@@ -164,7 +173,14 @@ const Navbar = () => {
                             <li onClick={() => { setMobileMenu('mobile-menu-close'); document.body.style.overflow="auto"; }}><Link to='/products'>Products</Link></li>
                             <li onClick={() => { setMobileMenu('mobile-menu-close'); document.body.style.overflow="auto"; }}><Link to='/about'>About Us</Link></li>
                             <li onClick={() => { setMobileMenu('mobile-menu-close'); document.body.style.overflow="auto"; }}><Link to='/contact-us'>Contact Us</Link></li>
-                            <li onClick={() => { setMobileMenu('mobile-menu-close'); document.body.style.overflow="auto"; }}><Link to='/login'>Login</Link></li>
+                            <li onClick={() => { setMobileMenu('mobile-menu-close'); document.body.style.overflow="auto"; }}>
+                                <Link to={isAuthenticated? '/' : '/login'} 
+                                onClick={() => {
+                                    sessionStorage.setItem('previousLocation', location.pathname);
+                                }}>
+                                    Login
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                 </div>

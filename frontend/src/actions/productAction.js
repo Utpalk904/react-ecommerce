@@ -96,6 +96,8 @@ export const createReview = (reviewData) =>
                 payload: data
             });
 
+            return data;
+
         } catch (error) {
             dispatch({
                 type: 'PRODUCT_REVIEW_FAIL',

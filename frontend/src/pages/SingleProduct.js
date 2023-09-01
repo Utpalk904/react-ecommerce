@@ -173,13 +173,13 @@ const SingleProduct = () => {
                         </button>
                         <div className={review + ' accordion-data-mobile'}>
                             <ReviewForm productName={product.name} productId={product && product._id} />
-                            {product && product.numOfReviews && product.numOfReviews!==0 && 
+                            {product && product.numOfReviews && product.numOfReviews!==0 ? 
                                 <div className='flex flex-wrap gap-5 mt-12'>
                                     {product && product.reviews && product.reviews.length!==0 && product.reviews.map((review, index) => (
                                         <ProductReviews key={index} review={review} />
                                     ))}
                                 </div>
-                            }
+                            : null}
                         </div>
                     </div>
                     <div className="accordion-data">
@@ -188,13 +188,13 @@ const SingleProduct = () => {
                         </div>
                         <div className={review}>
                             <ReviewForm productName={product.name} productId={product && product._id}/>
-                            {product && product.numOfReviews && product.numOfReviews!==0 && 
+                            {product && product.numOfReviews && product.numOfReviews!==0 ? 
                                 <div className='flex flex-wrap gap-5 mt-12'>
                                     {product && product.reviews && product.reviews.length!==0 && product.reviews.map((review, index) => (
                                         <ProductReviews key={index} review={review} />
                                     ))}
                                 </div>
-                            }
+                            : null}
                         </div>
                     </div>
                 </div>
