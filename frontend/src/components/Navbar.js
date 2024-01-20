@@ -196,7 +196,7 @@ const Navbar = () => {
                 </div>
             </div>
             <div className="bottom-bar">
-                <span className="bottom-icon account"><Link to='/login' className='bottom-bar-icon'><VscAccount /></Link></span>
+                <span className="bottom-icon account"><Link to={isAuthenticated? '/' : `/login?redirect=${location.pathname}`} className='bottom-bar-icon'><VscAccount /></Link></span>
                 <span className="bottom-icon wishlist"><Link to='/wishlist' className='bottom-bar-icon'><IoHeartOutline /></Link></span>
                 <span className="bottom-icon home"><Link to='/' className='bottom-bar-icon'><IoHomeOutline /></Link></span>
                 <span className="bottom-icon cart">

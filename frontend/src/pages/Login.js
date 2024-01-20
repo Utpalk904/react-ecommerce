@@ -71,7 +71,7 @@ const Login = () => {
             <div className="register-section right">
                 <h2>NEW CUSTOMERS</h2>
                 <h5>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</h5>
-                <Link to='/register' className='login-reg-button register'>Create an Account</Link>
+                <Link to={searchParams.get('redirect') ? `/register?redirect=${searchParams.get('redirect')}` : '/register'} className='login-reg-button register'>Create an Account</Link>
             </div>
         </div>
         

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import BreadCrums from '../components/BreadCrums';
 import { useSelector, useDispatch } from 'react-redux';
 import InputField from '../components/InputField';
@@ -18,6 +18,8 @@ const SignUp = () => {
     const[name, setName] = useState('');
     const[email, setEmail] = useState('');
     const[password, setPassword] = useState('');
+
+    const [searchParams] = useSearchParams(window.location.search);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -41,9 +43,9 @@ const SignUp = () => {
         }
 
         if (isAuthenticated) {
-            navigate('/');
+            navigate(searchParams.get('redirect') || '/');
         }
-    }, [error, dispatch, isAuthenticated, navigate]);
+    }, [error, dispatch, isAuthenticated, navigate, searchParams]);
 
     return (
         <div className='login-page'>
