@@ -20,7 +20,7 @@ export const getUserDetails = () =>
                 type: 'GET_USER_SUCCESS',
                 payload: data
             });
-            
+
         } catch (error) {
             dispatch({
                 type: 'GET_USER_FAIL',
@@ -35,7 +35,7 @@ export const registerUser = (formData) =>
             dispatch({
                 type: "REGISTER_USER_REQUEST"
             });
-            const { data } = await axios.post(`${baseUrl}/register`, formData, { headers: {"Content-Type": 'application/json'} });
+            const { data } = await axios.post(`${baseUrl}/register`, formData, { headers: { "Content-Type": 'application/json' } });
             dispatch({
                 type: 'REGISTER_USER_SUCCESS',
                 payload: data
@@ -51,13 +51,13 @@ export const registerUser = (formData) =>
         }
     };
 
-    export const loginUser = (formData) =>
+export const loginUser = (formData) =>
     async (dispatch) => {
         try {
             dispatch({
                 type: "LOGIN_USER_REQUEST"
             });
-            const { data } = await axios.post(`${baseUrl}/LOGIN`, formData, { headers: {"Content-Type": 'application/json'} });
+            const { data } = await axios.post(`${baseUrl}/LOGIN`, formData, { headers: { "Content-Type": 'application/json' } });
             dispatch({
                 type: 'LOGIN_USER_SUCCESS',
                 payload: data

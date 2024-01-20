@@ -34,6 +34,17 @@ const userSchema = new mongoose.Schema({
             required : true
         }
     },
+    cart: [
+        {
+            productId: {
+                type: mongoose.Schema.ObjectId,
+                ref: "Product"
+            },
+            quantity: {
+                type: Number
+            }
+        }
+    ],
     role : {
         type : String,
         default : 'user'

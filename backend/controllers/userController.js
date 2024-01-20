@@ -1,4 +1,5 @@
 const User = require('../models/userModel.js');
+const Product = require('../models/productModel.js');
 const ErrorHandler = require('../utils/errhandler');
 const catchAsyncErr = require('../middleware/catchAsyncErr');
 const sendToken = require('../utils/jwtToken');
@@ -256,3 +257,136 @@ exports.deleteUser = catchAsyncErr(async (req, res, next) => {
         message: 'User deleted Successfully'
     });
 });
+
+exports.getUserCart = catchAsyncErr(async (req, res, next) => {
+    User.aggregate([
+        {
+            $match: { _id: req.user._id } // Match the user
+        },
+        {
+            $unwind: '$cart' // Flatten the cart array
+        },
+        {
+            $lookup: {
+                from: 'products',
+                localField: 'cart.productId',
+                foreignField: '_id',
+                as: 'productDetails'
+            }
+        },
+        {
+            $unwind: '$productDetails' // Flatten the productDetails array
+        },
+        {
+            $group: {
+                _id: '$_id',
+                name: { $first: '$name' },
+                cartDetails: {
+                    $push: {
+                        productId: '$productDetails._id',
+                        quantity: '$cart.quantity',
+                        name: '$productDetails.name',
+                        price: '$productDetails.price'
+                        // Add other fields as needed
+                    }
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                name: 1,
+                cartDetails: 1
+            }
+        }
+    ]).exec((err, userCart) => {
+        if (err) {
+            // Handle error
+            return next(new ErrorHandler(err, 500));
+        }
+
+        // User's cart with product details
+        return res.json({
+            success: true,
+            userCart
+        })
+    })
+})
+
+exports.addToCart = catchAsyncErr(async (req, res, next) => {
+    const productId = req.params.id;
+    const quantity = parseInt(req.params.q);
+    const userId = req.user._id;
+
+    if (!productId || !quantity) {
+        return next(new ErrorHandler('product id or quantity not provided', 400));
+    }
+
+    // Check if the product exists
+    const product = await Product.findById(productId);
+    if (!product) {
+        return next(new ErrorHandler('product not found', 404));
+    }
+
+    // Check if the requested quantity is available in stock
+    if (quantity > product.stock) {
+        return next(new ErrorHandler('product out of stock', 400));
+    }
+
+    const user = await User.findById(userId);
+    const existingProduct = user.cart.find(item => item.productId.toString() === productId);
+
+    if (existingProduct) {
+        // Update the quantity if the product is already in the cart
+        existingProduct.quantity += quantity;
+    } else {
+        // Add the product to the user's cart
+        user.cart.push({ productId, quantity });
+    }
+
+    // Save the updated user document
+    await user.save();
+
+    res.status(200).json({
+        success: true,
+        message: 'Product added to cart successfully'
+    });
+
+})
+
+exports.modifyCart = catchAsyncErr(async (req, res, next) => {
+    const productId = req.params.id;
+    const newQuantity = parseInt(req.params.q);
+    const userId = req.user._id;
+
+    if (!productId) {
+        return next(new ErrorHandler('product id not provided', 400));
+    }
+
+    // Check if the product exists
+    const product = await Product.findById(productId);
+    if (!product) {
+        return next(new ErrorHandler('product not found', 404));
+    }
+
+    // If the new quantity is 0, remove the product from the cart
+    if (newQuantity === 0) {
+        await User.findByIdAndUpdate(userId, { $pull: { cart: { productId: productId } } });
+        return res.status(200).json({ success: true, message: 'Product removed from the cart' });
+    }
+
+    // Check if the requested quantity is valid
+    if (newQuantity < 0) {
+        return next(new ErrorHandler('Invalid quantity provided', 400));
+    }
+
+    // Update the quantity in the user's cart
+    await User.findOneAndUpdate(
+        { _id: userId, 'cart.productId': productId },
+        { 'cart.$.quantity': newQuantity },
+        { new: true } // To return the updated document
+    );
+
+    res.status(200).json({ success: true, message: 'Cart modified successfully' });
+
+})
