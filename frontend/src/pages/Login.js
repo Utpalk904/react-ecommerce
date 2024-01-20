@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import BreadCrums from '../components/BreadCrums';
 import InputField from '../components/InputField';
 import PageHeader from '../components/PageHeader';
@@ -7,11 +7,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { clearErrors, loginUser } from '../actions/userAction';
 import '../css/Login.css';
+import Loader2 from '../components/Loader2';
 
 const Login = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams(window.location.search);
 
     const { isAuthenticated, error, loading } = useSelector((state) => state.user);
 
@@ -42,14 +45,14 @@ const Login = () => {
         }
 
         if (isAuthenticated) {
-            const previousLocation = sessionStorage.getItem('previousLocation');
-            navigate(previousLocation || '/');
+            navigate(searchParams.get('redirect') || '/');
         }
 
-    }, [dispatch, error, isAuthenticated, navigate]);
+    }, [dispatch, error, isAuthenticated, navigate, searchParams]);
 
   return (
     <div className='login-page'>
+        {loading && <Loader2/>}
         <PageHeader pageHeader='Customer Login'/>
         <BreadCrums address='Login'/>
         <div className="login-register">
@@ -60,7 +63,7 @@ const Login = () => {
                     <InputField labelFor='email' label='Email' required='*' onChange={(e) => setEmail(e.target.value)} inputType='email'/>
                     <InputField labelFor='password' label='Password' required='*' onChange={(e) => setPassword(e.target.value)} inputType='password'/>
                     <div className="submit-forgot">
-                        <button type="submit" className='login-reg-button login' disabled={loading} >Sign In</button>
+                        <button type="submit" className='login-reg-button login disabled:cursor-not-allowed' disabled={loading} >Sign In</button>
                         <Link to='/'>Forgot Your Password?</Link>
                     </div>
                 </form>

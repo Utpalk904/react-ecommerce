@@ -13,6 +13,7 @@ import SignUp from './pages/SignUp';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails } from './actions/userAction';
+import { getUserCart } from './actions/cartAction';
 // import Loader from './components/Loader';
 
 function App() {
@@ -21,9 +22,16 @@ function App() {
 
   useEffect(() => {
     dispatch(getUserDetails());
-  },[dispatch]);
+  }, [dispatch]);
 
+  
   const { isAuthenticated } = useSelector((state) => state.user);
+  
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(getUserCart());
+    }
+  }, [dispatch, isAuthenticated])
 
   return (
     <BrowserRouter>
@@ -38,7 +46,7 @@ function App() {
         <Route exact path='/cart' element={<Home />} />
         <Route exact path='/login' element={<Login />} />
         {isAuthenticated && <Route exact path='/account' element={<Home />} />}
-        
+
         <Route exact path='/register' element={<SignUp />} />
         <Route exact path='/wishlist' element={<Home />} />
         <Route exact path='/product/:id' element={<SingleProduct />} />

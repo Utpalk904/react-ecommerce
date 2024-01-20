@@ -1,9 +1,10 @@
-export const userReducer = (state = { user: {}, isAuthenticated: false }, action) => {
+export const userReducer = (state = { user: {}, isAuthenticated: false, loading: false }, action) => {
     switch (action.type) {
         case 'GET_USER_REQUEST':
             return {
                 loading: true,
-                ...state
+                isAuthenticated: false,
+                user: {}
             };
         case 'GET_USER_SUCCESS':
             return {
@@ -25,7 +26,8 @@ export const userReducer = (state = { user: {}, isAuthenticated: false }, action
         case 'REGISTER_USER_REQUEST':
             return {
                 loading: true,
-                ...state
+                isAuthenticated: false,
+                user: {}
             };
         case 'REGISTER_USER_SUCCESS':
             return {
@@ -42,7 +44,8 @@ export const userReducer = (state = { user: {}, isAuthenticated: false }, action
         case 'LOGIN_USER_REQUEST':
             return {
                 loading: true,
-                ...state
+                isAuthenticated: false,
+                user: {}
             };
         case 'LOGIN_USER_SUCCESS':
             return {

@@ -40,6 +40,8 @@ const Navbar = () => {
 
     const { products, error } = useSelector((state) => state.products);
 
+    const { cart } = useSelector((state) => state.cart);
+
     useEffect(() => {
         // if (!loading) {
         //     toast.success("success");
@@ -51,6 +53,19 @@ const Navbar = () => {
         dispatch(getProduct());
     }, [dispatch, error]);
 
+    const [cartValue, setCartValue] = useState('');
+
+    useEffect(() => {
+        if (isAuthenticated && Array.isArray(cart)) {
+            let val = 0;
+            cart.forEach(item => {
+                val+=item.quantity;
+            });
+
+            setCartValue(val);
+        }
+    }, [cart, isAuthenticated])
+
     const searchClick = () => {
         setModalClass('search-modal');
         document.body.style.overflow="hidden";
@@ -59,6 +74,7 @@ const Navbar = () => {
     const modalClose = ()=>{
         setModalClass('search-modal-close');
         document.body.style.overflow="auto";
+        setSearchValue('');
         // return false;
     }
 
@@ -86,7 +102,7 @@ const Navbar = () => {
         <header>
             <div className={modalClass}>
                 <div className="modal-close">
-                    <span onClick={modalClose}>
+                    <span onClick={modalClose} className='cursor-pointer'>
                         <CgClose />
                     </span>
                 </div>
@@ -143,17 +159,14 @@ const Navbar = () => {
                 <div className="nav-right">
                     <span className="search" onClick={searchClick}><IoIosSearch /></span>
                     <span className="account">
-                        <Link to={isAuthenticated? '/' : '/login'} 
-                        onClick={() => {
-                            sessionStorage.setItem('previousLocation', location.pathname);
-                        }}>
+                        <Link to={isAuthenticated? '/' : `/login?redirect=${location.pathname}`}>
                             <VscAccount />
                         </Link>
                     </span>
                     <span className="wishlist"><Link to='/wishlist'><IoIosHeartEmpty /></Link></span>
                     <span className="cart">
                         <Link to='/cart'><BsCart3 /></Link>
-                        <span className="total-item">0</span>
+                        <span className="total-item">{isAuthenticated ? cartValue : 0}</span>
                     </span>
                 </div>
             </nav >
@@ -174,11 +187,8 @@ const Navbar = () => {
                             <li onClick={() => { setMobileMenu('mobile-menu-close'); document.body.style.overflow="auto"; }}><Link to='/about'>About Us</Link></li>
                             <li onClick={() => { setMobileMenu('mobile-menu-close'); document.body.style.overflow="auto"; }}><Link to='/contact-us'>Contact Us</Link></li>
                             <li onClick={() => { setMobileMenu('mobile-menu-close'); document.body.style.overflow="auto"; }}>
-                                <Link to={isAuthenticated? '/' : '/login'} 
-                                onClick={() => {
-                                    sessionStorage.setItem('previousLocation', location.pathname);
-                                }}>
-                                    Login
+                                <Link to={isAuthenticated? '/' : `/login?redirect=${location.pathname}`}>
+                                    {isAuthenticated? 'Profile' : 'Login'} 
                                 </Link>
                             </li>
                         </ul>
@@ -191,7 +201,7 @@ const Navbar = () => {
                 <span className="bottom-icon home"><Link to='/' className='bottom-bar-icon'><IoHomeOutline /></Link></span>
                 <span className="bottom-icon cart">
                     <Link to='/cart' className='bottom-bar-icon'><BsCart3 /></Link>
-                    <span className="total-item-mobile">0</span>
+                    <span className="total-item-mobile">{isAuthenticated ? cartValue : 0}</span>
                 </span>
                 <span className="bottom-icon setting" onClick={() => { setMobileMenu('mobile-menu'); window.scrollTo(0,0); document.body.style.overflow="hidden"; }}><IoSettingsOutline /></span>
             </div>

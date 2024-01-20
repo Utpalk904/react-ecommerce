@@ -15,6 +15,7 @@ export const getProduct = () =>
                 payload: data
             });
         } catch (error) {
+            console.log(error)
             dispatch({
                 type: ALL_PRODUCT_FAIL,
                 payload: error.response.data.message
@@ -34,6 +35,7 @@ export const getTrendingProduct = () =>
                 payload: data
             });
         } catch (error) {
+            console.log(error)
             dispatch({
                 type: TRENDING_PRODUCT_FAIL,
                 payload: error.response.data.message

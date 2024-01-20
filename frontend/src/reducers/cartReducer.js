@@ -1,24 +1,54 @@
-export const userReducer = (state = { cart: {} }, action) => {
+export const cartReducer = (state = { cart: {} }, action) => {
     switch (action.type) {
         case 'GET_USER_CART_REQUEST':
             return {
-                loading: true,
+                cartLoading: true,
                 ...state
             };
         case 'GET_USER_CART_SUCCESS':
             return {
-                loading: false,
-                cart: action.payload.user
+                cartLoading: false,
+                cart: action.payload.userCart
             };
         case 'GET_USER_CART_FAIL':
             return {
-                loading: false,
-                error: action.payload
+                cartLoading: false,
+                cartError: action.payload
+            };
+        case 'ADD_TO_CART_REQUEST':
+            return {
+                cartLoading: true,
+                ...state
+            };
+        case 'ADD_TO_CART_SUCCESS':
+            return {
+                cartLoading: false,
+                ...state
+            };
+        case 'ADD_TO_CART_FAIL':
+            return {
+                cartLoading: false,
+                cartError: action.payload
+            };
+        case 'MODIFY_CART_REQUEST':
+            return {
+                cartLoading: true,
+                ...state
+            };
+        case 'MODIFY_CART_SUCCESS':
+            return {
+                cartLoading: false,
+                ...state
+            };
+        case 'MODIFY_CART_FAIL':
+            return {
+                cartLoading: false,
+                cartError: action.payload
             };
         case 'CLEAR_ERRORS':
             return {
                 ...state,
-                error: null,
+                cartError: null,
             }
         default:
             return state;

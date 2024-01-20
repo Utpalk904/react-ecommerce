@@ -280,7 +280,6 @@ exports.getUserCart = catchAsyncErr(async (req, res, next) => {
         {
             $group: {
                 _id: '$_id',
-                name: { $first: '$name' },
                 cartDetails: {
                     $push: {
                         productId: '$productDetails._id',
@@ -295,9 +294,14 @@ exports.getUserCart = catchAsyncErr(async (req, res, next) => {
         {
             $project: {
                 _id: 0,
-                name: 1,
                 cartDetails: 1
             }
+        },
+        {
+            $unwind: '$cartDetails' // Flatten the cartDetails array
+        },
+        {
+            $replaceRoot: { newRoot: "$cartDetails" } // Replace the root with cartDetails
         }
     ]).exec((err, userCart) => {
         if (err) {
