@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { createReview } from '../actions/productAction';
+import { createReview, getProductDetails } from '../actions/productAction';
 import Loader from './Loader';
 
 const ReviewForm = ({ productName, productId }) => {
@@ -49,6 +49,7 @@ const ReviewForm = ({ productName, productId }) => {
 
         try {
             const response = await dispatch(createReview(data));
+            dispatch(getProductDetails(productId));
             
             if (response.success) {
                 toast.success('Review created!');   

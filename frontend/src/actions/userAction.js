@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// const baseUrl = 'http://localhost:4000/api/v1';
 const baseUrl = 'https://ecommerce-backend-381k.onrender.com/api/v1';
 
 export const getUserDetails = () =>
